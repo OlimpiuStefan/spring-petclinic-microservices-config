@@ -8,6 +8,10 @@ server:
 
 # embedded database init, supports mysql too trough the 'mysql' spring profile
 spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/petclinic?useSSL=false
+    username: root
+    password: petclinic
   sql:
     init:
       schema-locations: classpath*:db/hsqldb/schema.sql
@@ -43,9 +47,9 @@ logging.level.org.springframework: INFO
 management:
   endpoint:
     metrics:
-      enabled: true
+      enabled: false
     prometheus:
-      enabled: true
+      enabled: false
   endpoints:
     web:
       exposure:
@@ -53,12 +57,12 @@ management:
   metrics:
     export:
       prometheus:
-        enabled: true
+        enabled: false
   tracing:
     sampling:
       probability: 1
 
-# Chaos Engineering
+# Chaos Engineering disabled for now
 ---
 spring:
   config:
@@ -67,7 +71,7 @@ spring:
 management.endpoint.chaosmonkey.enabled: true
 chaos:
   monkey:
-    enabled: true
+    enabled: false
     watcher:
       component: false
       controller: false
@@ -75,17 +79,3 @@ chaos:
       rest-controller: false
       service: false
 
----
-spring:
-  config:
-    activate:
-      on-profile: mysql
-  datasource:
-    url: jdbc:mysql://localhost:3306/petclinic?useSSL=false
-    username: root
-    password: petclinic
-  sql:
-    init:
-      schema-locations: classpath*:db/mysql/schema.sql
-      data-locations: classpath*:db/mysql/data.sql
-      init: ALWAYS
